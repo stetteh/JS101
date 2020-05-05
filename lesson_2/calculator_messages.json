@@ -1,0 +1,14 @@
+
+{
+  "welcome": "Welcome to Calculator! Enter your name:",
+  "validName": "Make sure to enter a valid name.",
+  "validNumber": "Hmm... that doesn't look like a valid number.",
+  "tryAgain": "do you want to perform another operation (Y/N)",
+  "firstNumber": "What's the first number?",
+  "secondNumber": "What's the second number?",
+  "validChoice": "Enter either Y - yes or N - no ",
+  "operationChoice": "What operation would you like to perform? \n1) Add 2) Subtract 3) Multiply 4) Divide",
+  "thanks": "thanks for using this calculator, Goodbye!!!!",
+  "zeroNumber": "any number divided by zero is infinity",
+  "newSecondNumber": "enter new second number, zero's not allowed!"
+}
