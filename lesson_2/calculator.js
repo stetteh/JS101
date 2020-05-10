@@ -29,6 +29,23 @@ function isValidDivision(number2, operation) {
   return Number(number2) === 0 && operation === '4';
 }
 
+function theOperations(operation, number1, number2) {
+  switch (operation) {
+    case '1':
+      output = Number(number1) + Number(number2);
+      break;
+    case '2':
+      output = Number(number1) - Number(number2);
+      break;
+    case '3':
+      output = Number(number1) * Number(number2);
+      break;
+    case '4':
+      output = Number(number1) / Number(number2);
+      break;
+  }
+}
+
 prompt(MESSAGES['welcome']);
 let name = readline.question();
 
@@ -68,25 +85,11 @@ do {
 
   while (isValidDivision(number2, operation)) {
     prompt(MESSAGES['zeroNumber']);
-    //prompt(MESSAGES['validNumber']);
     prompt(MESSAGES['newSecondNumber']);
     number2 = readline.question();
   }
 
-  switch (operation) {
-    case '1':
-      output = Number(number1) + Number(number2);
-      break;
-    case '2':
-      output = Number(number1) - Number(number2);
-      break;
-    case '3':
-      output = Number(number1) * Number(number2);
-      break;
-    case '4':
-      output = Number(number1) / Number(number2);
-      break;
-  }
+  theOperations(operation, number1, number2);
 
   prompt(`The result is ${output}`);
 
