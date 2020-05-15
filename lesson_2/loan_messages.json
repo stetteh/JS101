@@ -1,0 +1,13 @@
+{
+  "welcome": "Welcome to Mortgage / Car Loan Calculator",
+  "welcome1": "'------------------------------------------'",
+  "name": "'Enter your name: ",
+  "validName": "Make sure to enter a valid name.",
+  "loanAmount": "Please enter loan amount",
+  "interestRate": "Enter loan interest rate (eg 5, 1.2, 9.0, 5.8, 6)",
+  "validNumber": "Hmm... that doesn't look like a valid number.",
+  "zero": "Enter a number greater than zero",
+  "tryAgain": "do you want to perform another operation (Y/N)",
+  "validChoice": "Enter either Y - yes or N - no ",
+  "thanks": "thanks for using this Mortgage / Car Loan Calculator, Goodbye!!!!"
+}
