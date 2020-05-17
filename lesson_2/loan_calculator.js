@@ -1,50 +1,48 @@
 
 const readline = require('readline-sync');
 const MESSAGES = require('./loan_messages.json');
-let name;
-let months;
-let question;
-let loanAmount;
-let annualInterestRate;
-let monthlyInterestRate;
-
-function prompt(message) {
-  console.log(`=> ${message}`);
-}
-
-//CHECK IF NUMBER IS VALID
-function invalidNumber(number) {
-  return number.trimStart() === '' || Number.isNaN(Number(number));
-}
-
-//CHECK IF NAME IS VALID
-function isvalidName(name) {
-  return name.trimStart() === '' || (typeof name === 'undefined');
-}
-
-function isValidChoice(question) {
-  return !['y','yes','n','no'].includes(question);
-}
 
 //DISPLAY WELCOME
 prompt(MESSAGES['welcome']);
 
 //GET THE USER NAME
 prompt(MESSAGES['name']);
-name = readline.question();
+let name = readline.question();
 
-while (isvalidName(name)) {
+while (isValidName(name)) {
   prompt(MESSAGES['validName']);
   name = readline.question();
 }
 
+function prompt(message) {
+  console.log(`=> ${message}`);
+}
+
+//CHECK IF NUMBER IS VALID
+function isValidNumber(number) {
+  return number.trimStart() === '' ||
+         Number(number) < 0 ||
+         Number.isNaN(Number(number));
+}
+
+//CHECK IF NAME IS VALID
+function isValidName(name) {
+  return name.trimStart() === '' || (typeof name === 'undefined');
+}
+
+//CHECK IF CHOICE IS VALID
+function isValidChoice(question) {
+  return !['y','yes','n','no'].includes(question);
+}
+
 //GET THE LOAN AMOUNT
+let loanAmount;
 function getLoanAmount() {
   prompt(MESSAGES['loanAmount']);
   loanAmount = readline.question();
 
-  while (invalidNumber(loanAmount)) {
-    if (Number(loanAmount) < 0) {
+  while (isValidNumber(loanAmount)) {
+    if (loanAmount < 0) {
       prompt(MESSAGES['zero']);
       loanAmount = readline.question();
     } else {
@@ -56,12 +54,13 @@ function getLoanAmount() {
 }
 
 //GET LOAN TERM IN YEARS AND RETURN MONTHS
+let months;
 function getLoanTerm() {
-  prompt('Enter Loan  period in (years)');
+  prompt('Enter Loan period in (years)');
   let loanDuration = readline.question();
 
-  while (invalidNumber(loanDuration)) {
-    if (Number(loanDuration) < 0) {
+  while (isValidNumber(loanDuration)) {
+    if (loanDuration < 0) {
       prompt(MESSAGES['zero']);
       loanDuration = readline.question();
     } else {
@@ -73,12 +72,13 @@ function getLoanTerm() {
 }
 
 //GET THE INTEREST RATE AND CALCULATE ANNUAL INTEREST RATE
+let annualInterestRate;
 function getInterestRate() {
   prompt(MESSAGES['interestRate']);
   let interestRate = readline.question();
 
-  while (invalidNumber(interestRate)) {
-    if (Number(interestRate) < 0) {
+  while (isValidNumber(interestRate)) {
+    if (interestRate < 0) {
       prompt(MESSAGES['zero']);
       interestRate = readline.question();
     } else {
@@ -90,12 +90,33 @@ function getInterestRate() {
   return annualInterestRate;
 }
 
+//CALCULATE MONTHLY INTEREST RATE
+let monthlyInterestRate;
+function interestRateMonthly(annualInterestRate) {
+  monthlyInterestRate = annualInterestRate / 12;
+  return monthlyInterestRate;
+}
+
+//CALCULATE MONTHLY PAYMENT
+function monthlyPayment(loanAmount, monthlyInterestRate, months) {
+  let monthlyPayment;
+  if (monthlyInterestRate === 0) {
+    monthlyPayment = loanAmount / Number(months);
+  } else {
+    monthlyPayment = Number(loanAmount) *
+                  (monthlyInterestRate /
+                  (1 - Math.pow((1 + monthlyInterestRate), (-Number(months)))));
+  }
+  prompt(`${name} your monthly payment is: $${monthlyPayment.toFixed(2)}`);
+}
+
 //ASK USER IF THEY WANT TO TRY AGAIN
+let question;
 function anotherCalculation() {
   prompt(MESSAGES['tryAgain']);
   question = readline.question().toLowerCase();
 
-  while (isValidChoice(question.toLowerCase())) {
+  while (isValidChoice(question)) {
     prompt(MESSAGES['validChoice']);
     question = readline.question().toLowerCase();
   }
@@ -104,21 +125,6 @@ function anotherCalculation() {
     prompt(MESSAGES['thanks']);
   }
   return question;
-}
-
-//CALCULATE MONTHLY INTEREST RATE
-function interestRateMonthly(annualInterestRate) {
-  monthlyInterestRate = annualInterestRate / 12;
-  return monthlyInterestRate;
-}
-
-//CALCULATE MONTHLY PAYMENT
-function monthlyPayment(loanAmount, monthlyInterestRate, months) {
-  let monthlyPayment = Number(loanAmount) *
-                  (monthlyInterestRate /
-                  (1 - Math.pow((1 + monthlyInterestRate), (-Number(months)))));
-
-  prompt(`${name} your monthly payment is: $${monthlyPayment.toFixed(2)}`);
 }
 
 do  {
